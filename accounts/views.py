@@ -39,7 +39,25 @@ def create_order(request):
         form=OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
-
+            return redirect('/')            
     context={'form':form}
     return render(request,'accounts/create_order.html',context)
+
+def update_order(request,order_id):    
+    order=Order.objects.get(id=order_id)
+    form=OrderForm(instance=order)
+    if request.method == "POST":
+        form=OrderForm(request.POST,instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/')    
+    context={'form':form}
+    return render(request,'accounts/create_order.html',context)    
+
+def delete_order(request,order_id):    
+    order=Order.objects.get(id=order_id)
+    if request.method=="POST":
+        order.delete()
+        return redirect('/')
+    context={'order':order}
+    return render(request,'accounts/delete_order.html',context)    
