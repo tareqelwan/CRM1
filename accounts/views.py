@@ -1,7 +1,8 @@
 from typing import ContextManager
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
+from .forms import *
 
 # Create your views here.
 def home(request):
@@ -31,3 +32,14 @@ def products(request):
     products=Product.objects.all()    
     context={'products': products,}
     return render(request,'accounts/products.html',context)
+
+def create_order(request):
+    form=OrderForm()
+    if request.method == "POST":
+        form=OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context={'form':form}
+    return render(request,'accounts/create_order.html',context)
