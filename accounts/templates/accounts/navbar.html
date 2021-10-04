@@ -1,4 +1,12 @@
 {% load static %}
+
+<style>
+  .login{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;  }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">  
     
     <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}"></a>
@@ -16,9 +24,12 @@
           <a class="nav-link" href="{% url 'products' %}">Products</a>
         </li>        
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'create_customer' %}">Customers</a>
+          <a class="nav-link" href="{% url 'list_customer' %}">Customers</a>
         </li>
       </ul>
     </div>
+
+    <span class="login">Hello,{{request.user}}</span>
+    <span class="login"><a href="{% url 'logout' %}">Logout</a></span>
 
 </nav>
