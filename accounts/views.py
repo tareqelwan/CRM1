@@ -61,3 +61,24 @@ def delete_order(request,order_id):
         return redirect('/')
     context={'order':order}
     return render(request,'accounts/delete_order.html',context)    
+
+def create_customer(request):
+    form=CustomerForm()
+    if request.method == "POST":
+        form=CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')            
+    context={'form':form}
+    return render(request,'accounts/create_customer.html',context)
+
+def update_customer(request,customer_id):    
+    customer=Customer.objects.get(id=customer_id)
+    form=CustomerForm(instance=customer)
+    if request.method == "POST":
+        form=CustomerForm(request.POST,instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('/')    
+    context={'form':form}
+    return render(request,'accounts/create_customer.html',context)    
