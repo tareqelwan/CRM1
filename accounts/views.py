@@ -8,9 +8,9 @@ from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
-from .filters import *
+from .filters import SalesUserFilter,CustomerFilter
 
-# Create your views here.
+
 @login_required(login_url='login')
 def home(request):
     orders=Order.objects.all()
@@ -28,17 +28,14 @@ def about(request):
 def profile(request):
     return render(request,'accounts/profile.html')
 
-def customer(request,customer_id):
-    customer=Customer.objects.get(id=customer_id)
-    orders=customer.order_set.all()
-    orders_count = orders.count()
-    context={'customer':customer,'orders':orders,'orders_count':orders_count,}
-    return render(request,'accounts/customer.html',context)
-
+#---------------------------------------------------- PRODUCT ------------------------------------------------ 
+@login_required(login_url='login')
 def products(request):
     products=Product.objects.all()    
     context={'products': products,}
     return render(request,'accounts/products.html',context)
+
+#---------------------------------------------------- ORDER ------------------------------------------------ 
 
 def create_order(request):
     form=OrderForm()
@@ -69,6 +66,15 @@ def delete_order(request,order_id):
     context={'order':order}
     return render(request,'accounts/delete_order.html',context)    
 
+#---------------------------------------------------- CUSTOMER ------------------------------------------------ 
+@login_required(login_url='login')
+def customer(request,customer_id):
+    customer=Customer.objects.get(id=customer_id)
+    orders=customer.order_set.all()
+    orders_count = orders.count()
+    context={'customer':customer,'orders':orders,'orders_count':orders_count,}
+    return render(request,'accounts/customer.html',context)
+
 def create_customer(request):
     form=CustomerForm()
     if request.method == "POST":
@@ -90,6 +96,15 @@ def update_customer(request,customer_id):
     context={'form':form}
     return render(request,'accounts/create_customer.html',context)    
 
+def delete_customer(request,customer_id):    
+    customer=Customer.objects.get(id=customer_id)
+    if request.method=="POST":
+        customer.delete()
+        return redirect('/')
+    context={'customer':customer}
+    return render(request,'accounts/delete_customer.html',context)    
+
+@login_required(login_url='login')
 def list_customer(request):
     customers=Customer.objects.all()
     total_customers=customers.count()   
@@ -100,8 +115,9 @@ def list_customer(request):
     context={'customers':customers,'total_customers':total_customers,'customer_filter':customer_filter,}
     return render(request,'accounts/list_customer.html',context)
 
+
+#---------------------------------------------------- AUTHENTICATION ------------------------------------------------ 
 def loginPage(request):    
-    
     if request.method=="POST":
         p_user=request.POST.get('username')
         p_pass=request.POST.get('password')
@@ -125,12 +141,52 @@ def register(request):
         if form.is_valid():
             form.save()
             return redirect('login')
-        
 
     context={}
     return render(request,'accounts/login.html',context)
 
-
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+#---------------------------------------------------- SALES USERS ------------------------------------------------ 
+@login_required(login_url='login')
+def su_list(request):
+    salesusers=SalesUser.objects.all()
+    total_salesusers=salesusers.count()       
+    salesusers_filter = SalesUserFilter(request.GET,queryset=salesusers)     
+    salesusers=salesusers_filter.qs
+    context={'salesusers':salesusers,'total_salesusers':total_salesusers,'salesusers_filter':salesusers_filter,}
+    return render(request,'accounts/su_list.html',context)
+
+def su_create(request):
+    form=SalesUserForm()
+    if request.method == "POST":
+        form=SalesUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('su_list')            
+    context={'form':form}
+    return render(request,'accounts/su_create.html',context)
+
+def su_update(request,su_id):    
+    salesuser=SalesUser.objects.get(id=su_id)
+    form=SalesUserForm(instance=salesuser)
+    if request.method == "POST":
+        form=SalesUserForm(request.POST,instance=salesuser)
+        if form.is_valid():
+            form.save()
+            return redirect('su_list')    
+    context={'form':form}
+    return render(request,'accounts/su_create.html',context)    
+
+def su_delete(request,su_id):    
+    salesuser=SalesUser.objects.get(id=su_id)
+    if request.method=="POST":
+        salesuser.delete()
+        return redirect('su_list')    
+    context={'salesuser':salesuser}
+    return render(request,'accounts/su_delete.html',context)    
+#---------------------------------------------------- END OF SALES USERS ------------------------------------------------ 
+
+

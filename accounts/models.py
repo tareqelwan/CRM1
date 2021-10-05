@@ -42,3 +42,16 @@ class Order(models.Model):
     
     def __str__(self):
         return str(self.product.name)
+
+class SalesUser(models.Model):    
+    SALES_GROUP=( ('CA','Cashier'),  ('AC','Account'),  ('WH','Whouse'), ('MA','Manager'), ('SA','Sales'), ('AD','Admin'), ('GU','Guest'), ('CO','Control'),)
+    USER_LEVEL=( ('L1','Level1'),  ('L2','Level2'), ('L3','Level3'), )
+    USER_BR = ( ('HO','HO'), ('DR','DR'), ('RR','RR'), ('JR','JR'), ('KR','KR'), ('S!','S1'), ('MW','MW'), )    
+    USER_PRICING=(  ('Any','Any'),  ('Retail','Retail'), ('Dealer','Dealer'),  )        
+    su_name = models.CharField(max_length=200,null=True)
+    su_group = models.CharField(max_length=2,null=True,choices=SALES_GROUP)
+    su_level = models.CharField(max_length=2,null=True,choices=USER_LEVEL)
+    su_br = models.CharField(max_length=2,null=True,choices=USER_BR)
+    su_pricing = models.CharField(max_length=6,null=True,choices=USER_PRICING)    
+    def __str__(self):
+        return str(self.su_name)

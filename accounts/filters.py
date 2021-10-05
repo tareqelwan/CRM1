@@ -5,4 +5,9 @@ from .models import *
 class CustomerFilter(django_filters.FilterSet):
     class Meta:
         model=Customer
-        fields='__all__'
+        fields=['name','phone']
+
+class SalesUserFilter(django_filters.FilterSet):
+    class Meta:
+        model=SalesUser
+        fields=['su_name']
