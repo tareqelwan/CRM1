@@ -143,7 +143,7 @@ def register(request):
             return redirect('login')
 
     context={}
-    return render(request,'accounts/login.html',context)
+    return render(request,'accounts/register.html',context)
 
 def logoutUser(request):
     logout(request)
