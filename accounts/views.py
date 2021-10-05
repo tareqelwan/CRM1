@@ -142,7 +142,7 @@ def register(request):
             form.save()
             return redirect('login')
 
-    context={}
+    context={'form':form}
     return render(request,'accounts/register.html',context)
 
 def logoutUser(request):

@@ -1,0 +1,29 @@
+
+/home/tareqelwan
+
+git clone https://github.com/tareqelwan/CRM1.git
+
+mkvirtualenv --python=/usr/bin/python3.8 venv
+
+pip install django
+
+pip install -r requirements.txt
+
+
+in the crm1 dir write command:
+------------------------------
+git remote add CRM1 https://github.com/tareqelwan/CRM1.git
+
+update remote files
+-------------------
+git push CRM1 main
+
+
+remove crm1 dir at pythonanywhere then run command (free user)
+--------------------------------------------------
+git clone https://github.com/tareqelwan/CRM1.git
+
+
+for paid customers only!!
+-------------------------
+git remote add pythonanywhere tareqelwan@ssh.pythonanywhere.com:/home/tareqelwan/CRM1/crm1.git
