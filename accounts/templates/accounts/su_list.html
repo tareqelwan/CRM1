@@ -1,41 +1,41 @@
 {%  extends 'accounts/main.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-
-    <div class="card card-body col-md-3">
-        <form method="get">                
-            {{salesusers_filter.form}}        
-            <hr>
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
+<div class="container col-md-8" style="margin-top:35px;">
+    <div class="alert alert-primary" role="alert">
+        Users's list
     </div>
-
-    <a class="btn btn-primary  btn-sm btn-block" href="{% url 'su_create' %}">Create</a>
-
-    <table class="table table-sm table-bordered">
-        <tr>					
-            <th></th>
-            <th></th>
-            <th>Name</th>
-            <th>Group</th>
-            <th>Level</th>
-            <th>Branch</th>
-            <th>Pricing</th>            
-
-        </tr>
-        {% for item in salesusers %}
-        <tr>
-            <td><a class="btn btn-sm btn-info" href="{% url 'su_update' item.id %}">View</a></td>
-            <td><a class="btn btn-sm btn-danger" href="{% url 'su_delete' item.id %}">Delete</a></td>
-            <td>{{item.su_name}}</td>
-            <td>{{item.su_group}}</td>
-            <td>{{item.su_level}}</td>
-            <td>{{item.su_br}}</td>
-            <td>{{item.su_pricing}}</td>
-        </tr>
-        {% endfor %}
-
-    </table>
-
-
+    <div class="card card-body col-md-12">
+        <form class="form-group col-md-3" method="get">
+            {{salesusers_filter.form.su_name|as_crispy_field}}
+            <button class="btn btn-primary btn-sm float-left" type="submit">Search</button>
+            <a class="btn btn-primary btn-sm float-right" href="{% url 'su_create' %}">+New</a>
+        </form>
+        <table class="table table-sm col-md-12 table-hover table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>NAME</th>
+                    <th>GROUP</th>
+                    <th>Level</th>
+                    <th>Branch</th>
+                    <th>Pricing</th>
+                </tr>
+            </thead>
+            {% for item in salesusers %}
+            <tr>
+                <td><a class="btn btn-sm btn-info" href="{% url 'su_update' item.id %}">View</a></td>
+                <td><a class="btn btn-sm btn-info" href="{% url 'su_delete' item.id %}">Delete</a></td>
+                <td>{{item.su_name}}</td>
+                <td>{{item.su_group}}</td>
+                <td>{{item.su_level}}</td>
+                <td>{{item.su_br}}</td>
+                <td>{{item.su_pricing}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 {% endblock %}
