@@ -12,11 +12,11 @@
             <button class="btn btn-primary btn-sm float-left" type="submit">Search</button>
             <a class="btn btn-primary btn-sm float-right" href="{% url 'su_create' %}">+New</a>
         </form>
-        <table class="table table-sm col-md-12 table-hover table-bordered">
+        <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;font-weight: bold;">
             <thead class="thead-light">
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th style="width: 5%;"></th>
+                    <th style="width: 5%;"></th>
                     <th>NAME</th>
                     <th>GROUP</th>
                     <th>Level</th>
@@ -26,8 +26,10 @@
             </thead>
             {% for item in salesusers %}
             <tr>
-                <td><a class="btn btn-sm btn-info" href="{% url 'su_update' item.id %}">View</a></td>
-                <td><a class="btn btn-sm btn-info" href="{% url 'su_delete' item.id %}">Delete</a></td>
+                
+                <td><a class="badge badge-pill badge-warning" href="{% url 'su_update' item.id %}">View</a></td>
+                <td><a class="badge badge-pill badge-danger" href="{% url 'su_delete' item.id %}">Delete</a></td>
+                
                 <td>{{item.su_name}}</td>
                 <td>{{item.su_group}}</td>
                 <td>{{item.su_level}}</td>

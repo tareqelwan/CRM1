@@ -4,24 +4,24 @@
 {% block content %}
 
 <div class="container col-md-8" style="margin-top:35px;">    
+    
     <div class="alert alert-primary" role="alert">
         Customer's list
+        <a class="badge badge-warning float-right" href="{% url 'create_customer' %}"> Create Customer </a> 
     </div>
 
     <div class="card card-body col-md-12">        
-
-    <form class="form-group col-md-3" method="get"> 
+    
+        <form class="form-group form-inline col-md-6 " method="get" style="padding: 2px;margin:2px;" > 
         {{customer_filter.form.name|as_crispy_field}}        
-        <button class="btn btn-primary btn-sm float-left" type="submit">Search </button>  
-        <a class="btn btn-primary btn-sm float-right" href="{% url 'create_customer' %}">+New</a> 
+        <button class="btn btn-primary btn-sm float-right" type="submit" style="padding:5px;margin:5px;">Search</button>          
     </form>
-
-    <table class="table table-sm col-md-12 table-hover table-bordered">
-        
+<br>
+    <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;font-weight: bold;">        
         <thead class="thead-light">        
             <tr>					
-                <th></th>
-                <th></th>
+                <th style="width: 5%;"></th>
+                <th style="width: 5%;"></th>
                 <th>NAME</th>
                 <th>PHONE</th>
                 <th>EMAIL</th>
@@ -30,8 +30,10 @@
 
         {% for customer in customers %}
         <tr>
-            <td><a class="btn btn-sm btn-info" href="{% url 'update_customer' customer.id %}">View</a></td>
-            <td><a class="btn btn-sm btn-info" href="{% url 'delete_customer' customer.id %}">Delete</a></td>
+
+            <td><a class="badge badge-pill badge-warning" href="{% url 'update_customer' customer.id %}">View</a></td>
+            <td><a class="badge badge-pill badge-danger" href="{% url 'delete_customer' customer.id %}">Delete</a></td>
+
             <td>{{customer.name}}</td>
             <td>{{customer.phone}}</td>
             <td>{{customer.email}}</td>

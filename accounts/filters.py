@@ -6,7 +6,7 @@ class CustomerFilter(django_filters.FilterSet):
     class Meta:
         model=Customer
         fields=['name']
-
+        
 class SalesUserFilter(django_filters.FilterSet):
     class Meta:
         model=SalesUser
@@ -25,4 +25,9 @@ class StockFilter(django_filters.FilterSet):
 class StockBrandFilter(django_filters.FilterSet):
     class Meta:
         model=StockBrand
+        fields=['name']        
+        
+class StockClassFilter(django_filters.FilterSet):
+    class Meta:
+        model=StockClass
         fields=['name']        

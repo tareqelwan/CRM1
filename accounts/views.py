@@ -8,18 +8,34 @@ from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
-from .filters import SalesUserFilter,CustomerFilter, StockUnitFilter,StockFilter,StockBrandFilter
+from .filters import *
 
 
 @login_required(login_url='login')
 def home(request):
     orders=Order.objects.all()
+    
     customers=Customer.objects.all()
-    total_customers=customers.count()
+    stocks=Stock.objects.all()
+    susers=SalesUser.objects.all()    
+    
+    total_susers='Users ( '
+    total_susers+=str(susers.count())
+    total_susers+=' )'    
+
+    total_stocks='Stocks ( '
+    total_stocks+=str(stocks.count())
+    total_stocks+=' )'    
+    
+    total_customers = 'Customers ( '    
+    total_customers+=str(customers.count())
+    total_customers+=' )'    
+
     total_orders=orders.count()
     total_delivered=orders.filter(status='Delivered').count()
     total_pending=orders.filter(status='Pending').count()
-    context={'orders':orders,'customers':customers,'total_customers':total_customers,'total_orders':total_orders,'total_delivered':total_delivered,'total_pending':total_pending}
+
+    context={'total_susers':total_susers,'total_stocks':total_stocks,'customers':customers,'total_customers':total_customers,'total_orders':total_orders,'total_delivered':total_delivered,'total_pending':total_pending,'orders':orders,}
     return render(request,'accounts/dashboard.html',context)
 
 def about(request):
@@ -101,16 +117,14 @@ def delete_customer(request,customer_id):
 @login_required(login_url='login')
 def list_customer(request):
     customers=Customer.objects.all()
-    total_customers=customers.count()   
-    
-    customer_filter = CustomerFilter(request.GET,queryset=customers)     
+    total_customers=customers.count()       
+    customer_filter = CustomerFilter(request.GET,queryset=customers )     
     customers = customer_filter.qs
-
     context={'customers':customers,'total_customers':total_customers,'customer_filter':customer_filter,}
     return render(request,'accounts/list_customer.html',context)
 
-
 #---------------------------------------------------- AUTHENTICATION ------------------------------------------------ 
+
 def loginPage(request):    
     if request.method=="POST":
         p_user=request.POST.get('username')
@@ -205,7 +219,7 @@ def stu_create(request):
     return render(request,'accounts/stu_create.html',context)    
 
 def stu_update(request,stu_id):    
-    stockunit=SalesUser.objects.get(id=stu_id)
+    stockunit=StockUnit.objects.get(id=stu_id)
     form=StockUnitForm(instance=stockunit)
     if request.method == "POST":
         form=StockUnitForm(request.POST,instance=stockunit)
@@ -306,3 +320,43 @@ def brand_delete(request,brand_id):
         return redirect('brand_list')    
     context={'brand':brand}
     return render(request,'accounts/brand_delete.html',context)    
+
+#---------------------------------------------------- Class  ------------------------------------------------ 
+@login_required(login_url='login')
+
+def class_list(request):
+    stock_class=StockClass.objects.all()
+    total_class=stock_class.count()       
+    class_filter = StockClassFilter(request.GET,queryset=stock_class)     
+    stock_class=class_filter.qs
+    context={'stock_class':stock_class,'total_class':total_class,'class_filter':class_filter,}
+    return render(request,'accounts/class_list.html',context)
+
+def class_create(request):
+    form=StockClassForm()
+    if request.method == "POST":
+        form=StockClassForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('class_list')            
+    context={'form':form}
+    return render(request,'accounts/class_create.html',context)    
+
+def class_update(request,class_id):    
+    stock_class=StockClass.objects.get(id=class_id)
+    form=StockClassForm(instance=stock_class)
+    if request.method == "POST":
+        form=StockClassForm(request.POST,instance=stock_class)
+        if form.is_valid():
+            form.save()
+            return redirect('class_list')    
+    context={'form':form,}
+    return render(request,'accounts/class_update.html',context)        
+
+def class_delete(request,class_id):    
+    stock_class=StockClass.objects.get(id=class_id)    
+    if request.method=="POST":
+        stock_class.delete()
+        return redirect('class_list')    
+    context={'stock_class':stock_class}
+    return render(request,'accounts/class_delete.html',context)    

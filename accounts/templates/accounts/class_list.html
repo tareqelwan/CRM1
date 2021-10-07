@@ -4,29 +4,30 @@
 {% block content %}
 <div class="container col-md-8" style="margin-top:35px;">
     <div class="alert alert-primary" role="alert">
-        Brand's list
+        Class's list
     </div>
     <div class="card card-body col-md-12">
         <form class="form-group col-md-3" method="get">
-            {{brand_filter.form.name|as_crispy_field}}
+            {{class_filter.form.name|as_crispy_field}}
             <button class="btn btn-primary btn-sm float-left" type="submit">Search</button>
-            <a class="btn btn-primary btn-sm float-right" href="{% url 'brand_create' %}">+New</a>
+            <a class="btn btn-primary btn-sm float-right" href="{% url 'class_create' %}">+New</a>
         </form>
         <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;font-weight: bold;">
             <thead class="thead-light">
                 <tr>
                     <th style="width: 5%;"></th>
                     <th style="width: 5%;"></th>
-                    <th>NAME</th>                    
+                    <th>Name</th>
                 </tr>
             </thead>
-            {% for item in brand %}
+            {% for item in stock_class %}
             <tr>
-                <td><a class="badge badge-pill badge-warning" href="{% url 'brand_update' item.id %}">View</a></td>
-                <td><a class="badge badge-pill badge-danger" href="{% url 'brand_delete' item.id %}">Delete</a></td>
-
                 
-                <td>{{item.name}}</td>                
+                <td><a class="badge badge-pill badge-warning" href="{% url 'class_update' item.id %}">View</a></td>
+                <td><a class="badge badge-pill badge-danger" href="{% url 'class_delete' item.id %}">Delete</a></td>
+                
+                
+                <td>{{item.name}}</td>
             </tr>
             {% endfor %}
         </table>

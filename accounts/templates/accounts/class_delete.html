@@ -1,0 +1,17 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+<div class="container col-md-6" style="margin-top:30px;"> 
+    <h1>Delete class </h1>
+</div>
+<div class="container col-md-6" style="margin-top:30px;">  
+    <p>Delete class {{stock_class}} </p>
+    <form action="{% url 'class_delete' stock_class.id %}" method="POST">                
+        {% csrf_token %}
+        <input type="submit" name="Submit" value="Confirm" class="btn-danger">
+        <button class="btn-primary" action="#" > <a style="color:aliceblue" href="{% url 'class_list' %}">Cancel</a></button>
+    </form>
+</div>
+
+{% endblock %}
+

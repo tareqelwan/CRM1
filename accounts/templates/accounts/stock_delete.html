@@ -2,14 +2,14 @@
 {% load static %}
 {% block content %}
 <div class="container col-md-6" style="margin-top:30px;">  
-    <h1>Delete sales user</h1>
+    <h1>Delete stock</h1>
 </div>
 <div class="container col-md-6" style="margin-top:30px;">  
-    <p>Delete user {{salesuser}} </p>
-    <form action="{% url 'su_delete' salesuser.id %}" method="POST">                
+    <p>Delete user {{stock}} </p>
+    <form action="{% url 'stock_delete' stock.id %}" method="POST">                
         {% csrf_token %}        
         <input type="submit" name="Submit" value="Confirm" class="btn-danger">        
-        <button class="btn-primary" action="#" > <a style="color:aliceblue" href="{% url 'su_list' %}">Cancel</a></button>        
+        <button class="btn-primary" action="#" > <a style="color:aliceblue" href="{% url 'stock_list' %}">Cancel</a></button>        
     </form>            
 </div>
 {% endblock %}

@@ -12,19 +12,20 @@
             <button class="btn btn-primary btn-sm float-left" type="submit">Search</button>
             <a class="btn btn-primary btn-sm float-right" href="{% url 'stu_create' %}">+New</a>
         </form>
-        <table class="table table-sm col-md-12 table-hover table-bordered">
+        <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;font-weight: bold;">
             <thead class="thead-light">
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th style="width: 5%;"></th>
+                    <th style="width: 5%;"></th>
                     <th>NAME</th>
                     
                 </tr>
             </thead>
             {% for item in stockunits %}
             <tr>
-                <td><a class="btn btn-sm btn-info" href="{% url 'stu_update' item.id %}">View</a></td>
-                <td><a class="btn btn-sm btn-info" href="{% url 'stu_delete' item.id %}">Delete</a></td>
+                <td><a class="badge badge-pill badge-warning" href="{% url 'stu_update' item.id %}">View</a></td>
+                <td><a class="badge badge-pill badge-danger" href="{% url 'stu_delete' item.id %}">Delete</a></td>
+                
                 <td>{{item.name}}</td>                
             </tr>
             {% endfor %}

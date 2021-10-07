@@ -1,48 +1,6 @@
-<br>
 
-<div class="container">
-
-	<div class="row">
-
-		<div class="col-sm">			
-			<div class="card">
-				<div class="card-header">
-				  Orders
-				</div>
-				<div class="card-body">
-				  <h5 class="card-title">{{total_orders}}</h5>
-				  
-				  
-				</div>
-			</div>			
-		</div>
-
-		<div class="col-sm">			
-			<div class="card">
-				<div class="card-header">
-				  Delivered
-				</div>
-				<div class="card-body">
-				  <h5 class="card-title">{{total_delivered}}</h5>
-				  
-				</div>
-			</div>			
-		</div>
-
-		<div class="col-sm">
-			<div class="card">
-				<div class="card-header">			
-			  	Delivered
-				</div>
-				<div class="card-body">
-			  		<h5 class="card-title">{{total_pending}}</h5>
-			  	
-				</div>
-			</div>			
-		</div>		
-
-	</div>
-
+<div class="alert alert-primary " role="alert">
+	 <a href="{% url 'list_customer' %}" class="badge badge-pill badge-primary">{{total_customers}} </a> 
+	 <a href="{% url 'su_list' %}" class="badge badge-pill badge-warning">{{total_susers}} </a> 
+	 <a href="{% url 'stock_list' %}" class="badge badge-pill badge-light">{{total_stocks}} </a> 
 </div>
-
-<br>

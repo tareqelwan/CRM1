@@ -2,25 +2,23 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
-from .models import Order,Customer, SalesUser, Stock, StockBrand,StockUnit
+from .models import *
+    
 
 class OrderForm(ModelForm):
     class Meta:
         model=Order
         #fields=['customer','product']
         fields='__all__'
-
 class CustomerForm(ModelForm):
     class Meta:
         model=Customer
         #fields=['customer','product']
         fields='__all__'
-
 class CreateUserForm(UserCreationForm):
     class Meta:
         model=User
         fields=['username','email','password1','password2']
-
 class SalesUserForm(ModelForm):
     class Meta:
         model=SalesUser                
@@ -44,7 +42,6 @@ class SalesUserForm(ModelForm):
                 'max_length': ("This name is too long."),
             },
         }
-
 class StockUnitForm(ModelForm):
     class Meta:
         model=StockUnit
@@ -56,13 +53,24 @@ class StockUnitForm(ModelForm):
                 'max_length': ("This name is too long."),
             },
         }
-
 class StockBrandForm(ModelForm):
     class Meta:
         model=StockBrand
         fields = ('name',)
         labels = {'name': ('Name:'),                        }
         help_texts = {'name': ('enter brand name'),                    }
+        error_messages = {
+            'name': {
+                'max_length': ("This name is too long."),
+            },
+        }
+
+class StockClassForm(ModelForm):
+    class Meta:
+        model=StockClass
+        fields = ('name',)
+        labels = {'name': ('Name:'),                        }
+        help_texts = {'name': ('enter class name'),                    }
         error_messages = {
             'name': {
                 'max_length': ("This name is too long."),
@@ -79,7 +87,6 @@ class StockForm(ModelForm):
             'stock_class',
             'stock_brand',
             'stock_unit',
-            'stock_cat',
             'stock_price',
             'stock_ucost',
             'stock_location',)
@@ -89,8 +96,7 @@ class StockForm(ModelForm):
             'stock_model': ('Model:'),                        
             'stock_class': ('Class:'),                        
             'stock_brand': ('Brand:'),                        
-            'stock_unit': ('Unit:'),                        
-            'stock_cat': ('Category:'),                        
+            'stock_unit': ('Unit:'),                                    
             'stock_price': ('Price:'),                        
             'stock_ucost': ('Cost:'),                        
             'stock_location': ('Location:'),                        

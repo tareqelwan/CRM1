@@ -43,6 +43,12 @@ urlpatterns = [
     path('brand_update/<str:brand_id>/', views.brand_update,name="brand_update"),
     path('brand_delete/<str:brand_id>/', views.brand_delete,name="brand_delete"),
 
+# class
+    path('class_list/', views.class_list,name="class_list"),
+    path('class_create/', views.class_create,name="class_create"),
+    path('class_update/<str:class_id>/', views.class_update,name="class_update"),
+    path('class_delete/<str:class_id>/', views.class_delete,name="class_delete"),
+
     path('login/', views.loginPage,name="login"),
     path('register/', views.register,name="register"),
     path('logout/', views.logoutUser,name="logout"),

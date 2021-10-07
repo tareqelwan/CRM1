@@ -12,11 +12,11 @@
             <button class="btn btn-primary btn-sm float-left" type="submit">Search</button>
             <a class="btn btn-primary btn-sm float-right" href="{% url 'stock_create' %}">+New</a>
         </form>
-        <table class="table table-sm col-md-12 table-hover table-bordered">
+        <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;font-weight: bold;">
             <thead class="thead-light">
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th style="width: 5%;"></th>
+                    <th style="width: 5%;"></th>
                     <th>No</th>
                     <th>Name</th>
                     <th>Model</th>
@@ -26,13 +26,16 @@
             </thead>
             {% for item in stock %}
             <tr>
-                <td><a class="btn btn-sm btn-info" href="{% url 'stock_update' item.id %}">View</a></td>
-                <td><a class="btn btn-sm btn-info" href="{% url 'stock_delete' item.id %}">Delete</a></td>
+
+                
+
+                <td><a class="badge badge-pill badge-warning" href="{% url 'stock_update' item.id %}">View</a></td>
+                <td><a class="badge badge-pill badge-danger" href="{% url 'stock_delete' item.id %}">Delete</a></td>
                 <td>{{item.stock_no}}</td>
                 <td>{{item.stock_name}}</td>
                 <td>{{item.stock_model}}</td>
                 <td>{{item.stock_price}}</td>
-                <td>{{item.stock_cost}}</td>
+                <td>{{item.stock_ucost}}</td>
             </tr>
             {% endfor %}
         </table>
