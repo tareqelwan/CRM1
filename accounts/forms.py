@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Order,Customer, SalesUser
+from .models import Order,Customer, SalesUser,StockUnit
 
 class OrderForm(ModelForm):
     class Meta:
@@ -46,3 +46,14 @@ class SalesUserForm(ModelForm):
             },
         }
 
+class StockUnitForm(ModelForm):
+    class Meta:
+        model=StockUnit
+        fields = ('name',)
+        labels = {'name': ('Name:'),                        }
+        help_texts = {'name': ('enter unit name'),                    }
+        error_messages = {
+            'name': {
+                'max_length': ("This name is too long."),
+            },
+        }

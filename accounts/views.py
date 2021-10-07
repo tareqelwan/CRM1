@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
-from .filters import SalesUserFilter,CustomerFilter
+from .filters import SalesUserFilter,CustomerFilter, StockUnitFilter
 
 
 @login_required(login_url='login')
@@ -183,4 +183,43 @@ def su_delete(request,su_id):
     return render(request,'accounts/su_delete.html',context)    
 #---------------------------------------------------- END OF SALES USERS ------------------------------------------------ 
 
+#---------------------------------------------------- Stock Unit ------------------------------------------------ 
+@login_required(login_url='login')
 
+def stu_list(request):
+    stockunits=StockUnit.objects.all()
+    total_stockunits=stockunits.count()       
+    stockunits_filter = StockUnitFilter(request.GET,queryset=stockunits)     
+    stockunits=stockunits_filter.qs
+    context={'stockunits':stockunits,'total_stockunits':total_stockunits,'stockunits_filter':stockunits_filter,}
+    return render(request,'accounts/stu_list.html',context)
+
+def stu_create(request):
+    form=StockUnitForm()
+    if request.method == "POST":
+        form=StockUnitForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stu_list')            
+    context={'form':form}
+    return render(request,'accounts/stu_create.html',context)    
+
+def stu_update(request,stu_id):    
+    stockunit=SalesUser.objects.get(id=stu_id)
+    form=StockUnitForm(instance=stockunit)
+    if request.method == "POST":
+        form=StockUnitForm(request.POST,instance=stockunit)
+        if form.is_valid():
+            form.save()
+            return redirect('stu_list')    
+    context={'form':form}
+    return render(request,'accounts/stu_update.html',context)        
+
+def stu_delete(request,stu_id):    
+    stockunit=StockUnit.objects.get(id=stu_id)
+    print(stockunit)
+    if request.method=="POST":
+        stockunit.delete()
+        return redirect('stu_list')    
+    context={'stockunit':stockunit}
+    return render(request,'accounts/stu_delete.html',context)    

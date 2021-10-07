@@ -25,6 +25,11 @@ urlpatterns = [
     path('su_update/<str:su_id>/', views.su_update,name="su_update"),
     path('su_delete/<str:su_id>/', views.su_delete,name="su_delete"),
 
+    path('stu_list/', views.stu_list,name="stu_list"),
+    path('stu_create/', views.stu_create,name="stu_create"),
+    path('stu_update/<str:stu_id>/', views.stu_update,name="stu_update"),
+    path('stu_delete/<str:stu_id>/', views.stu_delete,name="stu_delete"),
+
     path('login/', views.loginPage,name="login"),
     path('register/', views.register,name="register"),
     path('logout/', views.logoutUser,name="logout"),

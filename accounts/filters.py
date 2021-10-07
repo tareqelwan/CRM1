@@ -12,4 +12,7 @@ class SalesUserFilter(django_filters.FilterSet):
         model=SalesUser
         fields=['su_name']
         
-        
+class StockUnitFilter(django_filters.FilterSet):
+    class Meta:
+        model=StockUnit
+        fields=['name']        
