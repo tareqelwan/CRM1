@@ -1,19 +1,42 @@
 {% extends 'accounts/main.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-<div class="container" style="background-color:cadetblue ;margin-top:10px;padding:10px;">
-    <p> Sales user info </p>
-    <form action="" method="POST">
-        {% csrf_token %}
-        
-        {{ form.as_table }}
 
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-          </div>
+<div class="container col-sm-4" style="margin-top:35px;">
+  <div class="card card-header col-md-12">
+    <h3>Create sales user </h3>
+    <hr>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-10 mb-0">
+          {{ form.su_name|as_crispy_field }}
         </div>
-        
-    </form>    
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4 mb-0">
+          {{ form.su_group|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4 mb-0">
+          {{ form.su_level|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-3 mb-0">
+          {{ form.su_br|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-3 mb-0">
+          {{ form.su_pricing|as_crispy_field }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
 </div>
+
 {% endblock %}

@@ -1,16 +1,14 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 {% block content %}
-<div class="container" style="background-color:cadetblue ;margin-top:10px;padding:10px;">
-    <p> Sales user info </p>
-    <form action="" method="POST">
-        {% csrf_token %}        
-        {{ form.as_table }}
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-          </div>
-        </div>        
-    </form>    
+<div class="container col-md-6" style="margin-top:30px;">  
+  <h1>Update sales user</h1>
+</div>
+<div class="container col-md-6" style="margin-top:30px;">  
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include 'accounts/bs4_form.html' with form=form %}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 {% endblock %}

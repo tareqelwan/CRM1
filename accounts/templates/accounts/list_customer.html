@@ -1,29 +1,37 @@
 {%  extends 'accounts/main.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
-    <div class="card card-body col-md-3">
-        <form method="get">                
-            {{customer_filter.form}}        
-            <hr>
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
+<div class="container col-md-8" style="margin-top:35px;">    
+    <div class="alert alert-primary" role="alert">
+        Customer's list
     </div>
 
-    <a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_customer' %}">Create Customer</a>
+    <div class="card card-body col-md-12">        
 
-    <table class="table table-sm table-bordered">
-        <tr>					
-            <th></th>
-            <th></th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>email</th>
-        </tr>
+    <form class="form-group col-md-3" method="get"> 
+        {{customer_filter.form.name|as_crispy_field}}        
+        <button class="btn btn-primary btn-sm float-left" type="submit">Search </button>  
+        <a class="btn btn-primary btn-sm float-right" href="{% url 'create_customer' %}">+New</a> 
+    </form>
+
+    <table class="table table-sm col-md-12 table-hover table-bordered">
+        
+        <thead class="thead-light">        
+            <tr>					
+                <th></th>
+                <th></th>
+                <th>NAME</th>
+                <th>PHONE</th>
+                <th>EMAIL</th>
+            </tr>
+        </thead>
+
         {% for customer in customers %}
         <tr>
             <td><a class="btn btn-sm btn-info" href="{% url 'update_customer' customer.id %}">View</a></td>
-            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_customer' customer.id %}">Delete</a></td>
+            <td><a class="btn btn-sm btn-info" href="{% url 'delete_customer' customer.id %}">Delete</a></td>
             <td>{{customer.name}}</td>
             <td>{{customer.phone}}</td>
             <td>{{customer.email}}</td>
@@ -31,6 +39,6 @@
         {% endfor %}
 
     </table>
-
-
+</div>
+</div>
 {% endblock %}

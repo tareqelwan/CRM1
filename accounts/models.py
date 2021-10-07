@@ -53,5 +53,11 @@ class SalesUser(models.Model):
     su_level = models.CharField(max_length=2,null=True,choices=USER_LEVEL)
     su_br = models.CharField(max_length=2,null=True,choices=USER_BR)
     su_pricing = models.CharField(max_length=6,null=True,choices=USER_PRICING)    
+    
+    class Meta:
+        unique_together = ["su_name",]
+
     def __str__(self):
         return str(self.su_name)
+
+    
