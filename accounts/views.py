@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
-from .filters import SalesUserFilter,CustomerFilter, StockUnitFilter
+from .filters import SalesUserFilter,CustomerFilter, StockUnitFilter,StockFilter,StockBrandFilter
 
 
 @login_required(login_url='login')
@@ -223,3 +223,86 @@ def stu_delete(request,stu_id):
         return redirect('stu_list')    
     context={'stockunit':stockunit}
     return render(request,'accounts/stu_delete.html',context)    
+
+
+
+#---------------------------------------------------- Stock  ------------------------------------------------ 
+@login_required(login_url='login')
+
+def stock_list(request):
+    stock=Stock.objects.all()
+    total_stock=stock.count()       
+    stock_filter = StockFilter(request.GET,queryset=stock)     
+    stock=stock_filter.qs
+    context={'stock':stock,'total_stock':total_stock,'stock_filter':stock_filter,}
+    return render(request,'accounts/stock_list.html',context)
+
+def stock_create(request):
+    form=StockForm()
+    if request.method == "POST":
+        form=StockForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stock_list')            
+    context={'form':form}
+    return render(request,'accounts/stock_create.html',context)    
+
+def stock_update(request,stock_id):    
+    stock=Stock.objects.get(id=stock_id)
+    form=StockForm(instance=stock)
+    if request.method == "POST":
+        form=StockForm(request.POST,instance=stock)
+        if form.is_valid():
+            form.save()
+            return redirect('stock_list')    
+    context={'form':form}
+    return render(request,'accounts/stock_update.html',context)        
+
+def stock_delete(request,stock_id):    
+    stock=Stock.objects.get(id=stock_id)    
+    if request.method=="POST":
+        stock.delete()
+        return redirect('stock_list')    
+    context={'stock':stock}
+    return render(request,'accounts/stock_delete.html',context)    
+
+
+#---------------------------------------------------- Brand  ------------------------------------------------ 
+@login_required(login_url='login')
+
+def brand_list(request):
+    brand=StockBrand.objects.all()
+    total_brand=brand.count()       
+    brand_filter = StockBrandFilter(request.GET,queryset=brand)     
+    brand=brand_filter.qs
+    context={'brand':brand,'total_brand':total_brand,'brand_filter':brand_filter,}
+    return render(request,'accounts/brand_list.html',context)
+
+def brand_create(request):
+    form=StockBrandForm()
+    if request.method == "POST":
+        form=StockBrandForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('brand_list')            
+    context={'form':form}
+    return render(request,'accounts/brand_create.html',context)    
+
+def brand_update(request,brand_id):    
+    brand=StockBrand.objects.get(id=brand_id)
+    form=StockBrandForm(instance=brand)
+    if request.method == "POST":
+        form=StockBrandForm(request.POST,instance=brand)
+        if form.is_valid():
+            form.save()
+            return redirect('brand_list')    
+    context={'form':form}
+    return render(request,'accounts/brand_update.html',context)        
+
+def brand_delete(request,brand_id):    
+    brand=StockBrand.objects.get(id=brand_id)    
+    if request.method=="POST":
+        brand.delete()
+        return redirect('brand_list')    
+    context={'brand':brand}
+    return render(request,'accounts/brand_delete.html',context)    

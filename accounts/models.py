@@ -94,7 +94,7 @@ class StockUnit(models.Model):
     def __str__(self):
         return str(self.name)
 
-class Stock(models.Model):    
+class Stock(models.Model):
     
     stock_no = models.CharField(max_length=8,null=True,default='0')
     stock_name = models.CharField(max_length=50,null=True)

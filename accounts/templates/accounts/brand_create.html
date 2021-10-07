@@ -1,0 +1,22 @@
+{% extends 'accounts/main.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<div class="container col-sm-4" style="margin-top:35px;">
+  <div class="card card-header col-md-12">
+    <h3>Create brand </h3>
+    <hr>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-10 mb-0">
+          {{ form.name|as_crispy_field }}
+        </div>
+      </div>      
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
