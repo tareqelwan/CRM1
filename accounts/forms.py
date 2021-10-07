@@ -2,8 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
-
-from .models import Order,Customer, SalesUser,StockUnit
+from .models import Order,Customer, SalesUser, Stock, StockBrand,StockUnit
 
 class OrderForm(ModelForm):
     class Meta:
@@ -54,6 +53,60 @@ class StockUnitForm(ModelForm):
         help_texts = {'name': ('enter unit name'),                    }
         error_messages = {
             'name': {
+                'max_length': ("This name is too long."),
+            },
+        }
+
+class StockBrandForm(ModelForm):
+    class Meta:
+        model=StockBrand
+        fields = ('name',)
+        labels = {'name': ('Name:'),                        }
+        help_texts = {'name': ('enter brand name'),                    }
+        error_messages = {
+            'name': {
+                'max_length': ("This name is too long."),
+            },
+        }
+
+class StockForm(ModelForm):
+    class Meta:
+        model=Stock
+        fields = (
+            'stock_no',
+            'stock_name',
+            'stock_model',
+            'stock_class',
+            'stock_brand',
+            'stock_unit',
+            'stock_cat',
+            'stock_price',
+            'stock_ucost',
+            'stock_location',)
+        labels = {
+            'stock_no': ('No:'),                        
+            'stock_name': ('Name:'),                        
+            'stock_model': ('Model:'),                        
+            'stock_class': ('Class:'),                        
+            'stock_brand': ('Brand:'),                        
+            'stock_unit': ('Unit:'),                        
+            'stock_cat': ('Category:'),                        
+            'stock_price': ('Price:'),                        
+            'stock_ucost': ('Cost:'),                        
+            'stock_location': ('Location:'),                        
+            }
+        
+        help_texts = {
+            'stock_no': ('stock no'),                    
+            'stock_name': ('stock name'),                    
+            'stock_model': ('stock model'),                    
+            'stock_class': ('select class'),                    
+            'stock_brand': ('select brand'),                    
+
+            }
+
+        error_messages = {
+            'stock_name': {
                 'max_length': ("This name is too long."),
             },
         }
