@@ -5,11 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import PageNotAnInteger, Paginator,EmptyPage
 
 from .models import *
 from .forms import *
 from .filters import *
-
 
 @login_required(login_url='login')
 def home(request):
@@ -283,13 +283,19 @@ def stock_delete(request,stock_id):
 
 #---------------------------------------------------- Brand  ------------------------------------------------ 
 @login_required(login_url='login')
-
-def brand_list(request):
-    brand=StockBrand.objects.all()
-    total_brand=brand.count()       
-    brand_filter = StockBrandFilter(request.GET,queryset=brand)     
+def brand_list(request):        
+    brand=StockBrand.objects.all()    
+    brand_filter = StockBrandFilter(request.GET,queryset=brand)         
     brand=brand_filter.qs
-    context={'brand':brand,'total_brand':total_brand,'brand_filter':brand_filter,}
+    page_num = request.GET.get('page')    
+    paginator=Paginator(brand,5)    
+    try:
+        brands = paginator.page(page_num)        
+    except PageNotAnInteger:
+        brands = paginator.page(1)        
+    except EmptyPage:
+        brands = paginator.page(paginator.num_pages)        
+    context={'brand':brand,'brand_filter':brand_filter,'brands':brands,}
     return render(request,'accounts/brand_list.html',context)
 
 def brand_create(request):

@@ -2,10 +2,13 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+
 <div class="container col-md-8" style="margin-top:35px;">
+ 
     <div class="alert alert-primary" role="alert">
         Brand's list
     </div>
+
     <div class="card card-body col-md-12">
         <form class="form-group col-md-3" method="get">
             {{brand_filter.form.name|as_crispy_field}}
@@ -20,7 +23,7 @@
                     <th>NAME</th>                    
                 </tr>
             </thead>
-            {% for item in brand %}
+            {% for item in brands %}
             <tr>
                 <td><a class="badge badge-pill badge-warning" href="{% url 'brand_update' item.id %}">View</a></td>
                 <td><a class="badge badge-pill badge-danger" href="{% url 'brand_delete' item.id %}">Delete</a></td>
@@ -30,6 +33,27 @@
             </tr>
             {% endfor %}
         </table>
+        
+        <div class="alert alert-primary" role="alert">
+
+            {% if brands.has_previous %}
+            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page=1">First</a>
+            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page={{brands.previous_page_number}}">Previous</a>
+            {% endif %}
+
+            {% if brands.has_next %}
+            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page={{brands.next_page_number}}">Next</a>
+            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page={{brands.num_pages}}">Last</a>
+            {% endif %}
+            
+
+        </div>
+
+        
+
+        
+        
+
     </div>
 </div>
 {% endblock %}

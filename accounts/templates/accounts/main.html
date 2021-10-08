@@ -5,7 +5,7 @@
     <head>
         <title>CRM</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        
+        <link href="/static/css/sticky-footer.css" rel="stylesheet">
     </head>
     <body>
         {% include 'accounts/navbar.html' %}
@@ -15,7 +15,16 @@
         {% endblock%}
         
         
-        <h5>Footer</h5>
+        <footer class="footer">
+            <div class="alert alert-primary " role="alert">                          
+              <span class="badge badge badge-light">Ebrahim Al-Jassim and Sons Ltd.</span>
+              <span class="badge badge-pill badge-danger">Working year:2021</span>
+              <span class="badge badge badge-light">Branch:HO</span>
+              <span class="badge badge badge-light">User:Admin</span>
+              <span class="badge badge-pill badge-warning">Date:08/10/2021</span>
+            </div>
+
+        </footer>
         
         
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     
     'accounts',
     'django_filters',
-    'widget_tweaks',    
+    
     'crispy_forms',
 ]
 
