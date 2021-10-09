@@ -5,21 +5,21 @@ from . import views
 urlpatterns = [
     
     path('', views.home,name="home"),
-    
+   
     path('about/', views.about,name="about"),
     path('profile/', views.profile,name="profile"),        
-    
+#products    
     path('products/', views.products,name="products"),
-    
+#orders    
     path('create_order/', views.create_order,name="create_order"),
     path('update_order/<str:order_id>/', views.update_order,name="update_order"),
     path('delete_order/<str:order_id>/', views.delete_order,name="delete_order"),
-
+#customers
     path('create_customer/', views.create_customer,name="create_customer"),    
     path('update_customer/<str:customer_id>', views.update_customer,name="update_customer"),
     path('delete_customer/<str:customer_id>', views.delete_customer,name="delete_customer"),
     path('list_customer/', views.list_customer,name="list_customer"),
-
+#sales users
     path('su_list/', views.su_list,name="su_list"),
     path('su_create/', views.su_create,name="su_create"),
     path('su_update/<str:su_id>/', views.su_update,name="su_update"),
@@ -49,6 +49,11 @@ urlpatterns = [
     path('class_update/<str:class_id>/', views.class_update,name="class_update"),
     path('class_delete/<str:class_id>/', views.class_delete,name="class_delete"),
 
+# test pdf
+    path('pdf_view/<str:id>', views.PdfView.as_view(),name="pdf_view"),
+#   path('pdf_download/<str:id>', views.PdfDownload.as_view(),name="pdf_download"),
+
+# logins
     path('login/', views.loginPage,name="login"),
     path('register/', views.register,name="register"),
     path('logout/', views.logoutUser,name="logout"),

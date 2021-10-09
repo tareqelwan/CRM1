@@ -1,4 +1,6 @@
-from typing import ContextManager
+import datetime
+from django.template.loader import get_template
+#from typing import ContextManager
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -6,6 +8,9 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator,EmptyPage
+from django.views.generic import View
+from crm1.utils import render_to_pdf #created in step 4
+
 
 from .models import *
 from .forms import *
@@ -366,3 +371,43 @@ def class_delete(request,class_id):
         return redirect('class_list')    
     context={'stock_class':stock_class}
     return render(request,'accounts/class_delete.html',context)    
+
+
+# -------------- PDF : Invoice ----------
+# class based views
+
+import os
+
+class PdfView(View):
+    def get(self, request, *args, **kwargs):
+        data = {
+            'today': datetime.date.today(), 
+            'amount': 39.99,
+            'customer_name': 'Cooper Mann',
+            'order_id': 1233434,
+        }
+        print(os.path)
+        pdf = render_to_pdf('invoice.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+#class PdfDownload(View):   
+#    def get(self, request, *args, **kwargs):        
+#        template = get_template('invoice.html')
+#        context = {
+#            "invoice_id": 123,
+#            "customer_name": "John Cooper",
+#            "amount": 1399.99,
+#            "today": "Today",
+#        }
+#        html = template.render(context)
+#        pdf = render_to_pdf('invoice.html', context)
+#        if pdf:
+#            response = HttpResponse(pdf, content_type='application/pdf')
+#            filename = "Invoice_%s.pdf" %("12341231")
+#            content = "inline; filename='%s'" %(filename)
+#            download = request.GET.get("download")
+#            if download:
+#                content = "attachment; filename='%s'" %(filename)
+#            response['Content-Disposition'] = content
+#            return response
+#        return HttpResponse("Not found")

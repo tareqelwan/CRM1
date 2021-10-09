@@ -1,13 +1,12 @@
 
+FIRST TIME DEPLOY
+=================
 /home/tareqelwan
-
 git clone https://github.com/tareqelwan/CRM1.git
-
 mkvirtualenv --python=/usr/bin/python3.8 venv
-
 pip install django
-
 pip install -r requirements.txt
+
 
 
 in the crm1 dir write command:
@@ -24,6 +23,30 @@ remove crm1 dir at pythonanywhere then run command (free user)
 git clone https://github.com/tareqelwan/CRM1.git
 
 
-for paid customers only!!
--------------------------
-git remote add pythonanywhere tareqelwan@ssh.pythonanywhere.com:/home/tareqelwan/CRM1/crm1.git
+UPDATE DEPLOYMENT
+=================
+(1)delete old dir with its contents:
+rm -rf CRM1
+
+(2)re-copy through github
+git clone https://github.com/tareqelwan/CRM1.git
+
+
+Solve the problem of admin site css not applied:
+================================================
+(1)add the followin line in settings.py
+STATIC_ROOT = "/home/tareqelwan/CRM1/static"
+# or, eg,
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+(2) Comment the following line at settings.py
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+(3) Reload site from dashboard
+(4) Run this command from venv console
+	$ python manage.py collectstatic
+this will copy all admin site css to static folder at /static/admin folder auto.
+
+
+
