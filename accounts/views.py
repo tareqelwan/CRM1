@@ -387,7 +387,7 @@ class PdfView(View):
             'order_id': 1233434,
         }
         print(os.path)
-        pdf = render_to_pdf('invoice.html', data)
+        pdf = render_to_pdf('pdf/invoice.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 
 #class PdfDownload(View):   
