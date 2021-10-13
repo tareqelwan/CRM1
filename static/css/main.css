@@ -1,7 +1,9 @@
 #logo{ }
+
 body{
     background-color: #ebeff5;
 }
+
 #total-orders{
     background-color: #4cb4c7;
 }
@@ -11,3 +13,28 @@ body{
 #orders-pending{
     background-color: #7CD1C0;
 }
+
+.addlink {
+    padding-left: 15px;
+    background: url(../images/icon-addlink.svg) 0 1px no-repeat;
+    color:black;
+}
+
+.changelink {
+    padding-left: 15px;
+    background: url(../images/icon-changelink.svg) 0 1px no-repeat;
+    color:black;
+}
+
+.viewlink {
+    padding-left: 15px;
+    background: url(../images/icon-changelink.svg) 0 1px no-repeat;
+    color:black;
+}
+
+.deletelink {
+    padding-left: 15px;
+    background: url(../images/icon-deletelink.svg) 0 1px no-repeat;
+    color:black;
+}
+

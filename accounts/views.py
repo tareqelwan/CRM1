@@ -1,6 +1,6 @@
 import datetime
+
 from django.template.loader import get_template
-#from typing import ContextManager
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -8,13 +8,16 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator,EmptyPage
-from django.views.generic import View
-from crm1.utils import render_to_pdf #created in step 4
 
+from crm1.utils import render_to_pdf #created in step 4
+from django.urls import reverse_lazy
+from django.views import View
+from bootstrap_modal_forms.generic import BSModalCreateView
 
 from .models import *
 from .forms import *
 from .filters import *
+
 
 @login_required(login_url='login')
 def home(request):
@@ -55,37 +58,6 @@ def products(request):
     products=Product.objects.all()    
     context={'products': products,}
     return render(request,'accounts/products.html',context)
-
-#---------------------------------------------------- ORDER ------------------------------------------------ 
-
-def create_order(request):
-    form=OrderForm()
-    if request.method == "POST":
-        form=OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')            
-    context={'form':form}
-    return render(request,'accounts/create_order.html',context)
-
-def update_order(request,order_id):    
-    order=Order.objects.get(id=order_id)
-    form=OrderForm(instance=order)
-    if request.method == "POST":
-        form=OrderForm(request.POST,instance=order)
-        if form.is_valid():
-            form.save()
-            return redirect('/')    
-    context={'form':form}
-    return render(request,'accounts/create_order.html',context)    
-
-def delete_order(request,order_id):    
-    order=Order.objects.get(id=order_id)
-    if request.method=="POST":
-        order.delete()
-        return redirect('/')
-    context={'order':order}
-    return render(request,'accounts/delete_order.html',context)    
 
 #---------------------------------------------------- CUSTOMER ------------------------------------------------ 
 @login_required(login_url='login')
@@ -286,61 +258,28 @@ def stock_delete(request,stock_id):
     return render(request,'accounts/stock_delete.html',context)    
 
 
-#---------------------------------------------------- Brand  ------------------------------------------------ 
-@login_required(login_url='login')
-def brand_list(request):        
-    brand=StockBrand.objects.all()    
-    brand_filter = StockBrandFilter(request.GET,queryset=brand)         
-    brand=brand_filter.qs
-    page_num = request.GET.get('page')    
-    paginator=Paginator(brand,5)    
-    try:
-        brands = paginator.page(page_num)        
-    except PageNotAnInteger:
-        brands = paginator.page(1)        
-    except EmptyPage:
-        brands = paginator.page(paginator.num_pages)        
-    context={'brand':brand,'brand_filter':brand_filter,'brands':brands,}
-    return render(request,'accounts/brand_list.html',context)
-
-def brand_create(request):
-    form=StockBrandForm()
-    if request.method == "POST":
-        form=StockBrandForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('brand_list')            
-    context={'form':form}
-    return render(request,'accounts/brand_create.html',context)    
-
-def brand_update(request,brand_id):    
-    brand=StockBrand.objects.get(id=brand_id)
-    form=StockBrandForm(instance=brand)
-    if request.method == "POST":
-        form=StockBrandForm(request.POST,instance=brand)
-        if form.is_valid():
-            form.save()
-            return redirect('brand_list')    
-    context={'form':form}
-    return render(request,'accounts/brand_update.html',context)        
-
-def brand_delete(request,brand_id):    
-    brand=StockBrand.objects.get(id=brand_id)    
-    if request.method=="POST":
-        brand.delete()
-        return redirect('brand_list')    
-    context={'brand':brand}
-    return render(request,'accounts/brand_delete.html',context)    
 
 #---------------------------------------------------- Class  ------------------------------------------------ 
 @login_required(login_url='login')
 
-def class_list(request):
-    stock_class=StockClass.objects.all()
-    total_class=stock_class.count()       
+def class_list(request):    
+    
+    stock_class=StockClass.objects.all()    
     class_filter = StockClassFilter(request.GET,queryset=stock_class)     
     stock_class=class_filter.qs
-    context={'stock_class':stock_class,'total_class':total_class,'class_filter':class_filter,}
+    page_num = request.GET.get('page')    
+    paginator=Paginator(stock_class,10)    
+    
+    try:
+        stockclasses = paginator.page(page_num)        
+
+    except PageNotAnInteger:
+        stockclasses = paginator.page(1)        
+
+    except EmptyPage:
+        stockclasses = paginator.page(paginator.num_pages)        
+
+    context={'stock_class':stock_class,'class_filter':class_filter,'classes':stockclasses,}
     return render(request,'accounts/class_list.html',context)
 
 def class_create(request):
@@ -390,24 +329,113 @@ class PdfView(View):
         pdf = render_to_pdf('pdf/invoice.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 
-#class PdfDownload(View):   
-#    def get(self, request, *args, **kwargs):        
-#        template = get_template('invoice.html')
-#        context = {
-#            "invoice_id": 123,
-#            "customer_name": "John Cooper",
-#            "amount": 1399.99,
-#            "today": "Today",
-#        }
-#        html = template.render(context)
-#        pdf = render_to_pdf('invoice.html', context)
-#        if pdf:
-#            response = HttpResponse(pdf, content_type='application/pdf')
-#            filename = "Invoice_%s.pdf" %("12341231")
-#            content = "inline; filename='%s'" %(filename)
-#            download = request.GET.get("download")
-#            if download:
-#                content = "attachment; filename='%s'" %(filename)
-#            response['Content-Disposition'] = content
-#            return response
-#        return HttpResponse("Not found")
+#---------------------------------------------------- ORDERS ------------------------------------------------ 
+
+def order_create(request):
+    form=OrderForm()
+    if request.method == "POST":
+        form=OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('order_list')            
+        else:
+            print(form.errors)    
+
+    context={'form':form}
+    return render(request,'accounts/order_create.html',context)    
+
+def order_update(request,order_id):    
+    order=Order.objects.get(id=order_id)
+    form=OrderForm(instance=order)
+    if request.method == "POST":
+        form=OrderForm(request.POST,instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('order_list')    
+    context={'form':form}
+    return render(request,'accounts/order_update.html',context)        
+
+def order_delete(request,order_id):    
+    order=Order.objects.get(id=order_id)
+    if request.method=="POST":
+        order.delete()
+        return redirect('/')
+    context={'order':order}
+    return render(request,'accounts/delete_order.html',context)    
+
+def order_list(request):    
+    order=Order.objects.all()    
+    order_filter = OrderFilter(request.GET,queryset=order)         
+    order=order_filter.qs
+    page_num = request.GET.get('page')    
+    paginator=Paginator(order,10)    
+    try:
+        orders = paginator.page(page_num)        
+    except PageNotAnInteger:
+        orders = paginator.page(1)        
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)        
+    context={'order':order,'order_filter':order_filter,'orders':orders,}
+    return render(request,'accounts/order_list.html',context)
+
+#---------------------------------------------------- Brand  ------------------------------------------------ 
+@login_required(login_url='login')
+
+def BrandClassView():
+    brand=StockBrand.objects.all()    
+    
+
+def brand_list(request):        
+    brand=StockBrand.objects.all()    
+    brand_filter = StockBrandFilter(request.GET,queryset=brand)         
+    brand=brand_filter.qs
+    page_num = request.GET.get('page')    
+    paginator=Paginator(brand,10)    
+    
+    try:
+        brands = paginator.page(page_num)        
+    except PageNotAnInteger:
+        brands = paginator.page(1)        
+    except EmptyPage:
+        brands = paginator.page(paginator.num_pages)        
+
+
+    context={'brand':brand,'brand_filter':brand_filter,'brands':brands,}
+    return render(request,'accounts/brand_list.html',context)
+
+def brand_create(request):
+    form=StockBrandForm()
+    if request.method == "POST":
+        form=StockBrandForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('brand_list')            
+    context={'form':form}
+    return render(request,'accounts/brand_create.html',context)    
+
+def brand_update(request,brand_id):    
+    brand=StockBrand.objects.get(id=brand_id)
+    form=StockBrandForm(instance=brand)
+    if request.method == "POST":
+        form=StockBrandForm(request.POST,instance=brand)
+        if form.is_valid():
+            form.save()
+            return redirect('brand_list')    
+    context={'form':form}
+    return render(request,'accounts/brand_update.html',context)        
+
+def brand_delete(request,brand_id):    
+    brand=StockBrand.objects.get(id=brand_id)    
+    if request.method=="POST":
+        brand.delete()
+        return redirect('brand_list')    
+    context={'brand':brand}
+    return render(request,'accounts/brand_delete.html',context)    
+
+#---------------------------------------- Brand Modal Form -----------------
+class BrandCreateView(BSModalCreateView):
+    template_name = 'accounts/brand_create_modal.html'
+    form_class = BrandModelForm
+    success_message = 'Success: Book was created.'
+    success_url = reverse_lazy('brand_list')
+

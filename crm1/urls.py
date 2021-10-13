@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from accounts.views import BrandCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
+    path('brand_create_modal/', BrandCreateView.as_view(), name='brand_create_modal'),    
 ]

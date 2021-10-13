@@ -31,3 +31,8 @@ class StockClassFilter(django_filters.FilterSet):
     class Meta:
         model=StockClass
         fields=['name']        
+
+class OrderFilter(django_filters.FilterSet):
+    class Meta:
+        model=Order
+        fields=['id','customer']        

@@ -1,16 +1,16 @@
-{%  extends 'accounts/main.html' %}
+{% extends 'accounts/main.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-
 {% block content %}
+
 <div class="container col-md-8" style="margin-top:25px;">    
  <!-- Form title and search -->
     <div class="alert alert-dark" role="alert">        
-        <span style="font-weight: bold;"> PRODUCT CLASS </span>
+        <span style="font-weight: bold;"> Orders </span>
         <form class="form-group col-md-8" method="get" style="float:right;width: auto;vertical-align: center;">
-            {{class_filter.form.name}}
+            {{order_filter.form.id}} (id)
             <button class="brn btn-sm" style="margin-left:2px;" type="submit">Search</button>            
-            <a class="addlink" style="margin-bottom: 3px;" href="{% url 'class_create' %}"> Add </a>
+            <a class="addlink" style="margin-bottom: 3px;" href="{% url 'order_create' %}"> Add </a>
         </form>
     </div>
 <!-- Table  -->
@@ -20,34 +20,46 @@
                 <tr>
                     <th style="width: 8%;">Change</th>
                     <th style="width: 8%;">Delete</th>
-                    <th>NAME</th>                    
+                    <th>Br</th>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Salesman</th>
+                    <th>Date</th>
+                    <th>Amt</th>
                 </tr>
             </thead>
-            {% for item in stock_class %}
+            {% for item in orders %}
             <tr>
-                <td><a class="changelink" href="{% url 'class_update' item.id %}"></a></td>
-                <td><a class="deletelink" href="{% url 'class_delete' item.id %}"></a></td>                
-                <td>{{item.name}}</td>                
+                <td><a class="changelink" href="{% url 'order_update' item.id %}"></a></td>
+                <td><a class="deletelink" href="{% url 'order_delete' item.id %}"></a></td>                
+                <td>{{item.branch}}</td>                
+                <td>{{item.id}}</td>                
+                <td>{{item.customer}}</td>                
+                <td>{{item.salesman}}</td>                
+                <td>{{item.date_created}}</td>                
+                <td>{{item.order_amt}}</td>                
+
             </tr>
             {% endfor %}
         </table>            
     </div>
 
     <!-- Table Pagination -->
+
     <div class="alert alert-light" role="alert">        
         <nav aria-label="Page navigation example">            
-            <div style="float:left;font-family:'Courier New', Courier, monospace"> {{ stockclasses }}</div>
+            <div style="float:left;font-family:'Courier New', Courier, monospace"> {{ orders }}</div>
             <ul class="pagination justify-content-end">                            
-                {% if stockclasses.has_previous %}
-                <li class="page-item"><a class="page-link" href="{% url 'class_list' %}?page={{stockclasses.previous_page_number}}" tabindex="-1">Previous</a>                </li>
-                <li class="page-item"><a class="page-link" href="{% url 'class_list' %}?page=1">First</a></li>              
+                {% if orders.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'order_list' %}?page={{orders.previous_page_number}}" tabindex="-1">Previous</a>                </li>
+                <li class="page-item"><a class="page-link" href="{% url 'order_list' %}?page=1">First</a></li>              
                 {% else %}
                 <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">Previous</a>                  </li>
                 <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">First</a>                  </li>
-                {% endif %}                                
-                {% if stockclasses.has_next %}
-                <li class="page-item"><a class="page-link" href="{% url 'class_list' %}?page={{stockclasses.next_page_number}}">Next</a></li>
-                <li class="page-item"><a class="page-link" href="{% url 'class_list' %}?page={{stockclasses.paginator.num_pages}}">Last</a></li>
+                {% endif %}                
+                {% if brands.has_next %}
+                <li class="page-item"><a class="page-link" href="{% url 'order_list' %}?page={{orders.next_page_number}}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'order_list' %}?page={{orders.paginator.num_pages}}">Last</a></li>
                 {% else %}
                 <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">Next</a>                  </li>
                 <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">Last</a>                  </li>                
@@ -55,9 +67,7 @@
             </ul>
         </nav>        
     </div>
-    
+
 </div>
 
 {% endblock %}
-
-

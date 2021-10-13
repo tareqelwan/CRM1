@@ -1,59 +1,60 @@
 {%  extends 'accounts/main.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+
 {% block content %}
-
-<div class="container col-md-8" style="margin-top:35px;">
- 
-    <div class="alert alert-primary" role="alert">
-        Brand's list
-    </div>
-
-    <div class="card card-body col-md-12">
-        <form class="form-group col-md-3" method="get">
-            {{brand_filter.form.name|as_crispy_field}}
-            <button class="btn btn-primary btn-sm float-left" type="submit">Search</button>
-            <a class="btn btn-primary btn-sm float-right" href="{% url 'brand_create' %}">+New</a>
+<div class="container col-md-8" style="margin-top:25px;">    
+ <!-- Form title and search -->
+    <div class="alert alert-dark" role="alert">        
+        <span style="font-weight: bold;"> PRODUCT BRANDS </span>
+        <form class="form-group col-md-8" method="get" style="float:right;width: auto;vertical-align: center;">
+            {{brand_filter.form.name}}
+            <button class="brn btn-sm" style="margin-left:2px;" type="submit">Search</button>            
+            <a class="addlink" style="margin-bottom: 3px;" href="{% url 'brand_create' %}"> Add </a>
         </form>
-        <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;font-weight: bold;">
+    </div>
+<!-- Table  -->
+    <div class="card card-body col-md-12" style="min-height:400px;">        
+        <table class="table table-sm col-md-12 table-hover table-bordered" style="font-size:small;">
             <thead class="thead-light">
                 <tr>
-                    <th style="width: 5%;"></th>
-                    <th style="width: 5%;"></th>
+                    <th style="width: 8%;">Change</th>
+                    <th style="width: 8%;">Delete</th>
                     <th>NAME</th>                    
                 </tr>
             </thead>
             {% for item in brands %}
             <tr>
-                <td><a class="badge badge-pill badge-warning" href="{% url 'brand_update' item.id %}">View</a></td>
-                <td><a class="badge badge-pill badge-danger" href="{% url 'brand_delete' item.id %}">Delete</a></td>
-
-                
+                <td><a class="changelink" href="{% url 'brand_update' item.id %}"></a></td>
+                <td><a class="deletelink" href="{% url 'brand_delete' item.id %}"></a></td>                
                 <td>{{item.name}}</td>                
             </tr>
             {% endfor %}
-        </table>
-        
-        <div class="alert alert-primary" role="alert">
+        </table>            
+    </div>
 
-            {% if brands.has_previous %}
-            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page=1">First</a>
-            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page={{brands.previous_page_number}}">Previous</a>
-            {% endif %}
-
-            {% if brands.has_next %}
-            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page={{brands.next_page_number}}">Next</a>
-            <a class="badge badge-pill badge-light" href="{% url 'brand_list' %}?page={{brands.num_pages}}">Last</a>
-            {% endif %}
-            
-
-        </div>
-
-        
-
-        
-        
-
+    <!-- Table Pagination -->
+    <div class="alert alert-light" role="alert">        
+        <nav aria-label="Page navigation example">            
+            <div style="float:left;font-family:'Courier New', Courier, monospace"> {{ brands}}</div>
+            <ul class="pagination justify-content-end">                            
+                {% if brands.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'brand_list' %}?page={{brands.previous_page_number}}" tabindex="-1">Previous</a>                </li>
+                <li class="page-item"><a class="page-link" href="{% url 'brand_list' %}?page=1">First</a></li>              
+                {% else %}
+                <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">Previous</a>                  </li>
+                <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">First</a>                  </li>
+                {% endif %}                
+                {% if brands.has_next %}
+                <li class="page-item"><a class="page-link" href="{% url 'brand_list' %}?page={{brands.next_page_number}}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'brand_list' %}?page={{brands.paginator.num_pages}}">Last</a></li>
+                {% else %}
+                <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">Next</a>                  </li>
+                <li class="page-item disabled">                    <a class="page-link" href="#" tabindex="-1">Last</a>                  </li>                
+                {% endif %}
+            </ul>
+        </nav>        
     </div>
 </div>
 {% endblock %}
+

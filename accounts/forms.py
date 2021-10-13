@@ -1,24 +1,38 @@
+from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from django import forms
 from django.contrib.auth.models import User
-from .models import *
-    
-
+from bootstrap_modal_forms.forms import BSModalModelForm, BSModalForm
+from .models import StockBrand,Order,Customer,Stock,SalesUser,StockUnit,StockClass
+  
 class OrderForm(ModelForm):
-    class Meta:
+    class Meta:        
         model=Order
-        #fields=['customer','product']
-        fields='__all__'
+        fields=[
+            'customer',
+            'salesman',
+            'salesuser',
+            'branch',
+            'status',            
+            'order_type',            
+            'order_total',
+            'order_less',
+            'order_vat',
+            'order_tax',
+            'order_amt'
+            ]
+        
 class CustomerForm(ModelForm):
     class Meta:
         model=Customer
         #fields=['customer','product']
         fields='__all__'
+
 class CreateUserForm(UserCreationForm):
     class Meta:
         model=User
         fields=['username','email','password1','password2']
+
 class SalesUserForm(ModelForm):
     class Meta:
         model=SalesUser                
@@ -42,6 +56,7 @@ class SalesUserForm(ModelForm):
                 'max_length': ("This name is too long."),
             },
         }
+
 class StockUnitForm(ModelForm):
     class Meta:
         model=StockUnit
@@ -77,7 +92,7 @@ class StockClassForm(ModelForm):
             },
         }
 
-class StockForm(ModelForm):
+class StockForm(ModelForm):    
     class Meta:
         model=Stock
         fields = (
@@ -102,17 +117,27 @@ class StockForm(ModelForm):
             'stock_location': ('Location:'),                        
             }
         
-        help_texts = {
-            'stock_no': ('stock no'),                    
-            'stock_name': ('stock name'),                    
-            'stock_model': ('stock model'),                    
-            'stock_class': ('select class'),                    
-            'stock_brand': ('select brand'),                    
-
-            }
-
+        help_texts = {}        
         error_messages = {
             'stock_name': {
+                'max_length': ("This name is too long."),
+            },
+        }
+
+        def __init__(self, *args, **kwargs):
+            super( StockForm, self).__init__(*args, **kwargs) # Call to ModelForm constructor
+            self.fields['stock_name'].widget.attrs['cols'] = 10
+            self.fields['stock_name'].widget.attrs['rows'] = 1
+
+
+class BrandModelForm(BSModalModelForm):    
+    class Meta:
+        model=StockBrand
+        fields = ('name',)
+        labels = {'name': ('Name:'),                        }
+        help_texts = {'name': ('enter brand name'),                    }
+        error_messages = {
+            'name': {
                 'max_length': ("This name is too long."),
             },
         }

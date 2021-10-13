@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
-urlpatterns = [
+urlpatterns = [    
     
     path('', views.home,name="home"),
    
@@ -11,9 +11,11 @@ urlpatterns = [
 #products    
     path('products/', views.products,name="products"),
 #orders    
-    path('create_order/', views.create_order,name="create_order"),
-    path('update_order/<str:order_id>/', views.update_order,name="update_order"),
-    path('delete_order/<str:order_id>/', views.delete_order,name="delete_order"),
+    path('order_create/', views.order_create,name="order_create"),
+    path('order_updpate/<str:order_id>/', views.order_update,name="order_update"),
+    path('order_delete/<str:order_id>/', views.order_delete,name="order_delete"),
+    path('order_list/', views.order_list,name="order_list"),
+
 #customers
     path('create_customer/', views.create_customer,name="create_customer"),    
     path('update_customer/<str:customer_id>', views.update_customer,name="update_customer"),
@@ -38,10 +40,12 @@ urlpatterns = [
     path('stock_delete/<str:stock_id>/', views.stock_delete,name="stock_delete"),
 
 # brand
+    
     path('brand_list/', views.brand_list,name="brand_list"),
     path('brand_create/', views.brand_create,name="brand_create"),
     path('brand_update/<str:brand_id>/', views.brand_update,name="brand_update"),
     path('brand_delete/<str:brand_id>/', views.brand_delete,name="brand_delete"),
+        
 
 # class
     path('class_list/', views.class_list,name="class_list"),

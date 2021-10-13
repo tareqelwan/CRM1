@@ -17,19 +17,17 @@
                 <tr>
                     <th style="width: 5%;"></th>
                     <th style="width: 5%;"></th>
-                    <th>NAME</th>
-                    <th>GROUP</th>
+                    <th>Name</th>
+                    <th>Group</th>
                     <th>Level</th>
                     <th>Branch</th>
                     <th>Pricing</th>
                 </tr>
-            </thead>
-            {% for item in salesusers %}
-            <tr>
-                
+            </thead>            
+            {% for item in salesusers %}            
+            <tr>                
                 <td><a class="badge badge-pill badge-warning" href="{% url 'su_update' item.id %}">View</a></td>
-                <td><a class="badge badge-pill badge-danger" href="{% url 'su_delete' item.id %}">Delete</a></td>
-                
+                <td><a class="badge badge-pill badge-danger" href="{% url 'su_delete' item.id %}">Delete</a></td>                
                 <td>{{item.su_name}}</td>
                 <td>{{item.su_group}}</td>
                 <td>{{item.su_level}}</td>

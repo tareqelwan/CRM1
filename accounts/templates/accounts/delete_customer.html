@@ -10,7 +10,7 @@
     <form action="{% url 'delete_customer' customer.id %}" method="POST">
         {% csrf_token %}        
         <input type="submit" name="Submit" value="Confirm" class="btn-danger">        
-        <button class="btn-primary" action="#" > <a style="color:aliceblue" href="{% url 'list_customer' %}">Cancel</a></button>        
+        <button class="btn btn-warning" action="#" > <a href="{% url 'list_customer' %}">Cancel</a></button>        
     </form>            
 </div>
 

@@ -1,14 +1,23 @@
 {% extends 'accounts/main.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-<div class="container col-md-6" style="margin-top:30px;">  
-  <h1>Update brand</h1>
-</div>
-<div class="container col-md-6" style="margin-top:30px;">  
-    <form method="post" novalidate>
+
+<div class="container col-sm-4" style="margin-top:35px;">
+  <div class="card card-header col-md-12">
+    <h3>update brand </h3>
+    <hr>    
+    <form method="post">
       {% csrf_token %}
-      {% include 'accounts/bs4_form.html' with form=form %}
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="form-row" >
+        <div class="form-group col-md-5 mb-0" >
+          {{ form.name|as_crispy_field }}
+        </div>
+      </div>      
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a class="btn btn-warning" href="{% url 'brand_list' %}">Cancel</a>    
     </form>
+  </div>
 </div>
+
 {% endblock %}

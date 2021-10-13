@@ -1,0 +1,59 @@
+<form action="{% url 'stock_list' %}" method="post" novalidate>
+    {% csrf_token %}
+  
+    <table>
+    
+      <tr>
+        <td>
+          <label for="{{ form.stock_no.id_for_label }}" class="form-label">{{ form.stock_no.label }}: </label>
+        </td>
+        <td>
+          <input name="{{ form.stock_no.html_name }}" type="text" class="form-control" id="{{ form.stock_no.id_for_label }}"
+            required>
+          {% if form.stock_no.help_text %} <div class="form-text">{{ form.stock_no.help_text }}</div> {% endif %}
+          {% for error in form.stock_no.errors %} <div class="invalid-feedback d-block text-end">{{ error }}</div> {% endfor
+          %}
+        </td>
+      </tr>
+    
+    
+    
+    
+      <tr>
+        <td>
+    
+    
+          <label for="{{ form.stock_name.id_for_label }}" class="form-label">{{ form.stock_name.label }}: </label>
+        </td>
+        <td>
+          <input name="{{ form.stock_name.html_name }}" type="text" class="form-control"
+            id="{{ form.stock_name.id_for_label }}" required>
+          {% if form.stock_name.help_text %} <div class="form-text">{{ form.stock_name.help_text }}</div> {% endif %}
+          {% for error in form.stock_name.errors %} <div class="invalid-feedback d-block text-end">{{ error }}</div> {%
+          endfor %}
+    
+        </td>
+      </tr>
+    
+      <tr>
+        <td>
+    
+    
+    
+          <label for="{{ form.stock_brand.id_for_label }}" class="form-label"> {{form.stock_brand.label}} </label>
+        </td>
+        <td>
+          <select name="{{ form.stock_brand.html_name }}" value="{{ form.stock_brand.value }}"
+            id="{{ form.stock_brand.id_for_label }}" class="form-select">
+            {% for widget in form.stock_brand.subwidgets %} {{ widget }} {% endfor %}
+          </select>
+    
+        </td>
+      </tr>
+
+  
+  </table>
+
+    <button class="btn btn-success px-4" type="submit">Submit</button>
+
+</form>
